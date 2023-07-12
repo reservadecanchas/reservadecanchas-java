@@ -1,48 +1,80 @@
 package programas;
+
 import java.util.Scanner;
 
 public class Aplicacion {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        String[] canchas = { "Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5" };
-        boolean[] reservas = new boolean[5]; // False significa que la cancha está libre
+        String[] nombres = new String[10];
+        String[] apellidos = new String[10];
+        String[] dnis = new String[10];
+        String[] celulares = new String[10];
+        String[] fechas = new String[10];
+        String[] horas = new String[10];
+        int reservasHechas = 0;
 
         while (true) {
-            System.out.println("\nMenu:");
             System.out.println("1. Reservar Cancha");
-            System.out.println("2. Ver Canchas");
+            System.out.println("2. Ver Reservas");
             System.out.println("3. Salir");
-            System.out.print("Selecciona una opción: ");
+            System.out.println("Selecciona una opción:");
             int opcion = scanner.nextInt();
 
-            switch(opcion) {
-                case 1:
-                    System.out.print("Reservar Cancha. Ingresa el número de la cancha (1-5): ");
-                    int numeroCancha = scanner.nextInt() - 1; // Restamos 1 porque los arrays empiezan en 0
+            if (opcion == 1) {
+                System.out.println("Ingresa tu nombre:");
+                String nombre = scanner.next();
 
-                    if(numeroCancha >= 0 && numeroCancha < 5) {
-                        if(!reservas[numeroCancha]) {
-                            reservas[numeroCancha] = true;
-                            System.out.println("La " + canchas[numeroCancha] + " ha sido reservada exitosamente.");
-                        } else {
-                            System.out.println("Lo sentimos, la " + canchas[numeroCancha] + " ya ha sido reservada.");
-                        }
-                    } else {
-                        System.out.println("Número de cancha inválido.");
+                System.out.println("Ingresa tu apellido:");
+                String apellido = scanner.next();
+
+                System.out.println("Ingresa tu DNI:");
+                String dni = scanner.next();
+
+                System.out.println("Ingresa tu número de celular:");
+                String celular = scanner.next();
+
+                System.out.println("Ingresa la fecha de la reserva:");
+                String fecha = scanner.next();
+
+                System.out.println("Ingresa la hora de la reserva:");
+                String hora = scanner.next();
+
+                boolean reservaExistente = false;
+                for (int i = 0; i < reservasHechas; i++) {
+                    if (fechas[i].equals(fecha) && horas[i].equals(hora)) {
+                        reservaExistente = true;
+                        break;
                     }
-                    break;
-                case 2:
-                    System.out.println("Lista de Canchas:");
-                    for(int i = 0; i < 5; i++) {
-                        System.out.println((i+1) + ". " + canchas[i] + (reservas[i] ? " (Reservada)" : " (Libre)"));
-                    }
-                    break;
-                case 3:
-                    System.out.println("Saliendo del programa...");
-                    System.exit(0);
-                default:
-                    System.out.println("Opción inválida. Por favor, intenta de nuevo.");
+                }
+
+                if (reservaExistente) {
+                    System.out.println("Lo sentimos, la cancha ya está reservada para esta fecha y hora.");
+                } else {
+                    nombres[reservasHechas] = nombre;
+                    apellidos[reservasHechas] = apellido;
+                    dnis[reservasHechas] = dni;
+                    celulares[reservasHechas] = celular;
+                    fechas[reservasHechas] = fecha;
+                    horas[reservasHechas] = hora;
+                    reservasHechas++;
+                    System.out.println("Reserva realizada con éxito.");
+                }
+            } else if (opcion == 2) {
+                for (int i = 0; i < reservasHechas; i++) {
+                    System.out.println("Reserva " + (i + 1) + ":");
+                    System.out.println("Nombre: " + nombres[i]);
+                    System.out.println("Apellido: " + apellidos[i]);
+                    System.out.println("DNI: " + dnis[i]);
+                    System.out.println("Celular: " + celulares[i]);
+                    System.out.println("Fecha: " + fechas[i]);
+                    System.out.println("Hora: " + horas[i]);
+                    System.out.println();
+                }
+            } else if (opcion == 3) {
+                System.exit(0);
+            } else {
+                System.out.println("Opción inválida.");
             }
         }
     }
